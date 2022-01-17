@@ -1,0 +1,576 @@
+mysql> create table salesman(salesman_id int primary key, name varchar(15), city varchar(15) commission int );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'commission int )' at line 1
+mysql> create table salesman(salesman_id int primary key, name varchar(15), city varchar(15), commission int );
+ERROR 1046 (3D000): No database selected
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| myorg              |
+| mysql              |
+| mysqlday1          |
+| org1               |
+| performance_schema |
+| sakila             |
+| student            |
+| sys                |
+| world              |
++--------------------+
+10 rows in set (0.01 sec)
+
+mysql> use org1;
+Database changed
+mysql> create table salesman(salesman_id int primary key, name varchar(15), city varchar(15), commission int );
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> desc salesman;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| salesman_id | int         | NO   | PRI | NULL    |       |
+| name        | varchar(15) | YES  |     | NULL    |       |
+| city        | varchar(15) | YES  |     | NULL    |       |
+| commission  | int         | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+4 rows in set (0.01 sec)
+
+mysql> insert into salesman(salesman_id, name,cit,commission)values(5001 'James Hoog' 'New York' ,'0.15')
+    -> (5002,'Nail Kinte', 'Paris',0.15), 
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''James Hoog' 'New York' ,'0.15')
+(5002,'Nail Kinte', 'Paris',0.15),' at line 1
+mysql> insert into salesman(salesman_id, name,cit,commission)values(5001 'James Hoog' 'New York' ,'0.15'),
+    -> (5002,'Nail Kinte', 'Paris',0.15);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''James Hoog' 'New York' ,'0.15'),
+(5002,'Nail Kinte', 'Paris',0.15)' at line 1
+mysql> insert into salesman(salesman_id, name,cit,commission)values(5001 'James Hoog' 'New York' ,'0.15'),
+    -> desc salesman;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''James Hoog' 'New York' ,'0.15'),
+desc salesman' at line 1
+mysql> insert into salesman(salesman_id, name,city,commission)values(5001 'James Hoog' 'New York' ,'0.15'),
+    -> (5002,'Nail Kinte', 'Paris',0.15);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''James Hoog' 'New York' ,'0.15'),
+(5002,'Nail Kinte', 'Paris',0.15)' at line 1
+mysql> insert into salesman(salesman_id, name,cit,commission)values
+    -> (5001,'James Hoog' , 'New York', 0.15);
+ERROR 1054 (42S22): Unknown column 'cit' in 'field list'
+mysql> insert into salesman(salesman_id, name,city,commission)values
+    -> (5001,'James Hoog' , 'New York', 0.15);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from salesman;
++-------------+------------+----------+------------+
+| salesman_id | name       | city     | commission |
++-------------+------------+----------+------------+
+|        5001 | James Hoog | New York |          0 |
++-------------+------------+----------+------------+
+1 row in set (0.00 sec)
+
+mysql> alter table salesman modify commission float;
+Query OK, 1 row affected (0.09 sec)
+Records: 1  Duplicates: 0  Warnings: 0
+
+mysql> desc salesman;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| salesman_id | int         | NO   | PRI | NULL    |       |
+| name        | varchar(15) | YES  |     | NULL    |       |
+| city        | varchar(15) | YES  |     | NULL    |       |
+| commission  | float       | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+4 rows in set (0.01 sec)
+
+mysql> delete commission from salesman;
+ERROR 1109 (42S02): Unknown table 'commission' in MULTI DELETE
+mysql> drop commission from salesman;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'commission from salesman' at line 1
+mysql> delete commission from salesman where commission = 0;
+ERROR 1109 (42S02): Unknown table 'commission' in MULTI DELETE
+mysql> desc salesman;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| salesman_id | int         | NO   | PRI | NULL    |       |
+| name        | varchar(15) | YES  |     | NULL    |       |
+| city        | varchar(15) | YES  |     | NULL    |       |
+| commission  | float       | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> delete from salesman where commission = 0;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> desc salesman;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| salesman_id | int         | NO   | PRI | NULL    |       |
+| name        | varchar(15) | YES  |     | NULL    |       |
+| city        | varchar(15) | YES  |     | NULL    |       |
+| commission  | float       | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+4 rows in set (0.01 sec)
+
+mysql> select * from salesman;
+Empty set (0.00 sec)
+
+mysql> insert into salesman(salesman_id, name,city,commission)values
+    -> (5001,'James Hoog', 'New York' , 0.15),
+    -> (5002,'Nail Knite' , 'Paris' , 0.13),
+    -> (5005, 'Pit Alex', 'London', 0.11),
+    -> (5006, 'Mc Lyon' , 'Paris', 0.14),
+    -> (5007, 'Paul Adam', 'Rome' , 0.13),
+    -> (5003,'Lauson Hen' , 'San Jose', 0.12);
+Query OK, 6 rows affected (0.01 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+mysql> select * from salesman;
++-------------+------------+----------+------------+
+| salesman_id | name       | city     | commission |
++-------------+------------+----------+------------+
+|        5001 | James Hoog | New York |       0.15 |
+|        5002 | Nail Knite | Paris    |       0.13 |
+|        5003 | Lauson Hen | San Jose |       0.12 |
+|        5005 | Pit Alex   | London   |       0.11 |
+|        5006 | Mc Lyon    | Paris    |       0.14 |
+|        5007 | Paul Adam  | Rome     |       0.13 |
++-------------+------------+----------+------------+
+6 rows in set (0.01 sec)
+
+mysql> create table cusomer(customer int primary key, cust_name varchar(15), city varchar(15), grade int, salesman_id int foregin key reference salesman(salesman_id );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'foregin key reference salesman(salesman_id )' at line 1
+mysql> create table cusomer(customer int primary key, cust_name varchar(15), city varchar(15), grade int,  foregin key salesman_id reference salesman(salesman_id );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'key salesman_id reference salesman(salesman_id )' at line 1
+mysql> create table cusomer(customer int primary key, cust_name varchar(15), city varchar(15), grade int,  foreign key salesman_id reference salesman(salesman_id );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'reference salesman(salesman_id )' at line 1
+mysql> create table cusomer(customer int primary key, cust_name varchar(15), city varchar(15), grade int,  foreign key salesman_id references salesman(salesman_id );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'references salesman(salesman_id )' at line 1
+mysql> create table cusomer(customer int primary key, cust_name varchar(15), city varchar(15), grade int,  foreign key( salesman_id) references salesman(salesman_id );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> create table cusomer(customer int primary key, cust_name varchar(15), city varchar(15), grade int,  foreign key salesman_id references salesman(salesman_id ));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'references salesman(salesman_id ))' at line 1
+mysql> create table cusomer(customer int primary key, cust_name varchar(15), city varchar(15), grade int,  foreign key (salesman_id) references salesman(salesman_id));
+ERROR 1072 (42000): Key column 'salesman_id' doesn't exist in table
+mysql> create table cusomer(customer int primary key, cust_name varchar(15), city varchar(15), grade int,  foreign key (salesman_id) references salesman(salesman_id));
+ERROR 1072 (42000): Key column 'salesman_id' doesn't exist in table
+mysql> desc salesman;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| salesman_id | int         | NO   | PRI | NULL    |       |
+| name        | varchar(15) | YES  |     | NULL    |       |
+| city        | varchar(15) | YES  |     | NULL    |       |
+| commission  | float       | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+4 rows in set (0.01 sec)
+
+mysql> create table cusomer(customer int primary key, cust_name varchar(15), city varchar(15), grade int,  foreign key (salesman_id) references salesman(salesman_id));
+ERROR 1072 (42000): Key column 'salesman_id' doesn't exist in table
+mysql> show tables;
++----------------+
+| Tables_in_org1 |
++----------------+
+| salesman       |
++----------------+
+1 row in set (0.00 sec)
+
+mysql> create table cusomer(customer int primary key, cust_name varchar(15), city varchar(15), grade int);
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> alter table cusomer remname 'cusomer' to 'customer'
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'remname 'cusomer' to 'customer'' at line 1
+mysql> alter table cusomer rename customer;
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> show tables;
++----------------+
+| Tables_in_org1 |
++----------------+
+| customer       |
+| salesman       |
++----------------+
+2 rows in set (0.00 sec)
+
+
+mysql> show tables;
++----------------+
+| Tables_in_org1 |
++----------------+
+| customer       |
+| salesman       |
++----------------+
+2 rows in set (0.00 sec)
+
+mysql> desc customer;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| customer  | int         | NO   | PRI | NULL    |       |
+| cust_name | varchar(15) | YES  |     | NULL    |       |
+| city      | varchar(15) | YES  |     | NULL    |       |
+| grade     | int         | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> alter table customer add foreign key (salesman_id) references salesman(salesman_id) on delete cascade;
+ERROR 1072 (42000): Key column 'salesman_id' doesn't exist in table
+mysql> desc salesman;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| salesman_id | int         | NO   | PRI | NULL    |       |
+| name        | varchar(15) | YES  |     | NULL    |       |
+| city        | varchar(15) | YES  |     | NULL    |       |
+| commission  | float       | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'add column sale varchar(5)' at line 1
+mysql> alter table customer add email varchar(44);
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc customer;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| customer  | int         | NO   | PRI | NULL    |       |
+| cust_name | varchar(15) | YES  |     | NULL    |       |
+| city      | varchar(15) | YES  |     | NULL    |       |
+| grade     | int         | YES  |     | NULL    |       |
+| email     | varchar(44) | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+5 rows in set (0.02 sec)
+
+mysql> alter table customer add salesman_id int;
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+
+mysql> alter table customer drop column email;
+Query OK, 0 rows affected (0.07 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc customer;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| customer    | int         | NO   | PRI | NULL    |       |
+| cust_name   | varchar(15) | YES  |     | NULL    |       |
+| city        | varchar(15) | YES  |     | NULL    |       |
+| grade       | int         | YES  |     | NULL    |       |
+| salesman_id | int         | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+
+mysql> alter table customer add constraint salesman_id foreign key(salesman_id) references salesman(salesman_id) on delete cascade;
+Query OK, 0 rows affected (0.10 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc customer;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| customer    | int         | NO   | PRI | NULL    |       |
+| cust_name   | varchar(15) | YES  |     | NULL    |       |
+| city        | varchar(15) | YES  |     | NULL    |       |
+| grade       | int         | YES  |     | NULL    |       |
+| salesman_id | int         | YES  | MUL | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> insert into customer(customer_id,cust_name,city,grade,salesman_id) values
+    -> (3002,'Nick Rimando', 'New York', 100, 5001),
+    -> (3007,'Brad Davis', 'New York', 200, 5001),
+    -> (3005 'Graham Zusi', 'California', 200,5002),
+    -> (3008,'Julian Gree', 'London', 300,5002),
+    -> (3004 'Fabian Johnson', 'Paris', 300, 5006),
+    -> (3009, 'Geoff Cameron' 'Berlin', 100,5003),
+    -> (3003,'Jozy Altidor', 'Moscow', 200, 5007),
+    -> (3001,'Brad Guzan', 'London' , , 5005);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''Graham Zusi', 'California', 200,5002),
+(3008,'Julian Gree', 'London', 300,5002)' at line 4
+mysql> insert into customer(customer_id,cust_name,city,grade,salesman_id) values
+    -> (3002,'Nick Rimando', 'New York', 100, 5001),
+    -> (3007,'Brad Davis', 'New York', 200, 5001),
+    -> (3005 'Graham Zusi', 'California', 200,5002),
+    -> (3008,'Julian Gree', 'London', 300,5002),
+    -> (3004 'Fabian Johnson', 'Paris', 300, 5006),
+    -> (3009, 'Geoff Cameron' 'Berlin', 100,5003),
+    -> (3003,'Jozy Altidor', 'Moscow', 200, 5007),
+    -> (3001,'Brad Guzan', 'London' ,0 , 5005);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''Graham Zusi', 'California', 200,5002),
+(3008,'Julian Gree', 'London', 300,5002)' at line 4
+mysql> insert into customer(customer_id,cust_name,city,grade,salesman_id) values
+    -> (3002,'Nick Rimando', 'New York', 100, 5001);
+ERROR 1054 (42S22): Unknown column 'customer_id' in 'field list'
+mysql> des customer;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'des customer' at line 1
+mysql> desc  customer
+    -> ;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| customer    | int         | NO   | PRI | NULL    |       |
+| cust_name   | varchar(15) | YES  |     | NULL    |       |
+| city        | varchar(15) | YES  |     | NULL    |       |
+| grade       | int         | YES  |     | NULL    |       |
+| salesman_id | int         | YES  | MUL | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> alter table customer rename column 
+    -> 'customer' to 'customer_id';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''customer' to 'customer_id'' at line 2
+mysql> alter table customer rename column customer to customer_id;
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc customer;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| customer_id | int         | NO   | PRI | NULL    |       |
+| cust_name   | varchar(15) | YES  |     | NULL    |       |
+| city        | varchar(15) | YES  |     | NULL    |       |
+| grade       | int         | YES  |     | NULL    |       |
+| salesman_id | int         | YES  | MUL | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+mysql> insert into customer(customer_id,cust_name,city,grade,salesman_id) values
+    -> (3002,'Nick Rimando', 'New York', 100, 5001),
+    -> (3007,'Brad Davis', 'New York', 200, 5001),
+    -> (3005 'Graham Zusi', 'California', 200,5002),
+    -> (3008,'Julian Gree', 'London', 300,5002),
+    -> (3004 'Fabian Johnson', 'Paris', 300, 5006),
+    -> (3009, 'Geoff Cameron' 'Berlin', 100,5003),
+    -> (3003,'Jozy Altidor', 'Moscow', 200, 5007),
+    -> (3001,'Brad Guzan', 'London' ,, 5005);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''Graham Zusi', 'California', 200,5002),
+(3008,'Julian Gree', 'London', 300,5002)' at line 4
+mysql> insert into customer(customer_id,cust_name,city,grade,salesman_id) values
+    -> (3002,'Nick Rimando', 'New York', 100, 5001);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into customer(customer_id,cust_name,city,grade,salesman_id) values
+    -> (3007,'Brad Davis', 'New York', 200, 5001);
+Query OK, 1 row affected (0.01 sec)
+
+
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'asdfasd' at line 4
+mysql> insert into customer(customer_id,cust_name,city,grade,salesman_id) values
+    -> (3005 ,'Graham Zusi', 'California', 200,5002);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into customer(customer_id,cust_name,city,grade,salesman_id) values
+    -> (3008,'Julian Gree', 'London', 300,5002),
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 2
+mysql> insert into customer(customer_id,cust_name,city,grade,salesman_id) values
+    -> (3008,'Julian Gree', 'London', 300,5002);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into customer(customer_id,cust_name,city,grade,salesman_id) values
+    -> (3004, 'Fabian Johnson', 'Paris', 300, 5006),
+    -> (3009, 'Geoff Cameron' ,'Berlin', 100,5003),
+    -> (3003,'Jozy Altidor', 'Moscow', 200, 5007),
+    -> (3001,'Brad Guzan', 'London' ,0, 5005);
+Query OK, 4 rows affected (0.01 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> select * from customer;
++-------------+----------------+------------+-------+-------------+
+| customer_id | cust_name      | city       | grade | salesman_id |
++-------------+----------------+------------+-------+-------------+
+|        3001 | Brad Guzan     | London     |     0 |        5005 |
+|        3002 | Nick Rimando   | New York   |   100 |        5001 |
+|        3003 | Jozy Altidor   | Moscow     |   200 |        5007 |
+|        3004 | Fabian Johnson | Paris      |   300 |        5006 |
+|        3005 | Graham Zusi    | California |   200 |        5002 |
+|        3007 | Brad Davis     | New York   |   200 |        5001 |
+|        3008 | Julian Gree    | London     |   300 |        5002 |
+|        3009 | Geoff Cameron  | Berlin     |   100 |        5003 |
++-------------+----------------+------------+-------+-------------+
+8 rows in set (0.00 sec)
+
+
+mysql> create table orders(ord_no int, purch_amt float , customer_id int , salesman_id int ,foreign key (customer_id) references customer(customer_id) on delete cascade);
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> alter table customer modify column add constraints salesman_id foreign key (salesman) references salesman(salesman) on delete cascade;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'add constraints salesman_id foreign key (salesman) references salesman(salesman)' at line 1
+mysql> alter table customer  add constraint salesman_id foreign key (salesman) references salesman(salesman) on delete cascade;
+ERROR 1061 (42000): Duplicate key name 'salesman_id'
+mysql> desc orders;
++-------------+-------+------+-----+---------+-------+
+| Field       | Type  | Null | Key | Default | Extra |
++-------------+-------+------+-----+---------+-------+
+| ord_no      | int   | YES  |     | NULL    |       |
+| purch_amt   | float | YES  |     | NULL    |       |
+| customer_id | int   | YES  | MUL | NULL    |       |
+| salesman_id | int   | YES  |     | NULL    |       |
++-------------+-------+------+-----+---------+-------+
+4 rows in set (0.01 sec)
+
+
+mysql> alter table orders drop salesman_id;
+Query OK, 0 rows affected (0.07 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc orders;
++-------------+-------+------+-----+---------+-------+
+| Field       | Type  | Null | Key | Default | Extra |
++-------------+-------+------+-----+---------+-------+
+| ord_no      | int   | YES  |     | NULL    |       |
+| purch_amt   | float | YES  |     | NULL    |       |
+| customer_id | int   | YES  | MUL | NULL    |       |
++-------------+-------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+
+mysql> alter table orders add column salesman_id int;
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+
+mysql> alter table orders rename column salesman_id to salesman_id_fo;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+
+mysql>  alter table orders add constraint salesman_id_fo   foreign key(salesman_id_fo) references salesman(salesman_id) on delete cascade;
+Query OK, 0 rows affected (0.09 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc orders;
++----------------+-------+------+-----+---------+-------+
+| Field          | Type  | Null | Key | Default | Extra |
++----------------+-------+------+-----+---------+-------+
+| ord_no         | int   | YES  |     | NULL    |       |
+| purch_amt      | float | YES  |     | NULL    |       |
+| customer_id    | int   | YES  | MUL | NULL    |       |
+| salesman_id_fo | int   | YES  | MUL | NULL    |       |
++----------------+-------+------+-----+---------+-------+
+4 rows in set (0.01 sec)
+
+mysql> insert into orders(ord_no,purch_amnt,ord_date,customer_id,salesman_id_fo)values
+    -> (70001       150.5       2012-10-05  3005 ,5002),
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '150.5       2012-10-05  3005 ,5002),' at line 2
+mysql> alter table orders add ord_date date;
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc orders;
++----------------+-------+------+-----+---------+-------+
+| Field          | Type  | Null | Key | Default | Extra |
++----------------+-------+------+-----+---------+-------+
+| ord_no         | int   | YES  |     | NULL    |       |
+| purch_amt      | float | YES  |     | NULL    |       |
+| customer_id    | int   | YES  | MUL | NULL    |       |
+| salesman_id_fo | int   | YES  | MUL | NULL    |       |
+| ord_date       | date  | YES  |     | NULL    |       |
++----------------+-------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> insert into orders(ord_no,purch_amnt,ord_date,customer_id,salesman_id_fo)values
+    -> (70001,150.5 , 2012-10-05 , 3005 ,5002)
+    -> ;
+ERROR 1054 (42S22): Unknown column 'purch_amnt' in 'field list'
+mysql> insert into orders(ord_no,purch_amt,ord_date,customer_id,salesman_id_fo)values
+    -> (70001,150.5 , 2012-10-05 , 3005 ,5002);
+ERROR 1292 (22007): Incorrect date value: '1997' for column 'ord_date' at row 1
+mysql> (70001,150.5 , '2012-10-05' , 3005 ,5002);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '70001,150.5 , '2012-10-05' , 3005 ,5002)' at line 1
+mysql> (70001,150.5 , '2012-10-05' , 3005 ,5002);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '70001,150.5 , '2012-10-05' , 3005 ,5002)' at line 1
+mysql> insert into orders(ord_no,purch_amt,ord_date,customer_id,salesman_id_fo)values
+    -> (70001,150.5 , '2012-10-05' , 3005 ,5002);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into orders(ord_no,purch_amt,ord_date,customer_id,salesman_id_fo)values
+    -> (70009     ,  270.65  ,   ' 2012-09-10' , 3001  ,       5005),
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 2
+mysql> insert into orders(ord_no,purch_amt,ord_date,customer_id,salesman_id_fo)values
+    -> (70009     ,  270.65  ,   ' 2012-09-10' , 3001  ,       5005);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into orders(ord_no,purch_amt,ord_date,customer_id,salesman_id_fo)values
+    -> (70002       ,65.26,       '2012-10-05' , 3002,         5001),
+    -> (70004  ,     110.5,       '2012-08-17' , 3009  ,       5003),
+    -> (70007,       948.5      , '2012-09-10'  ,3005        , 5002),
+    -> (70005 ,      2400.6 ,     '2012-07-27'  ,3007      ,   5001);
+Query OK, 4 rows affected (0.01 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> insert into orders(ord_no,purch_amt,ord_date,customer_id,salesman_id_fo)values
+    -> (70008    ,   5760  ,      '2012-09-10' , 3002 ,        5001),
+    -> (70010       1983.43     2012-10-10  3004         5006
+    -> 
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '1983.43     2012-10-10  3004         5006' at line 3
+mysql> insert into orders(ord_no,purch_amt,ord_date,customer_id,salesman_id_fo)values
+    -> (70008    ,   5760  ,      '2012-09-10' , 3002 ,        5001),
+    -> (70010,       1983.43 ,    '2012-10-10'  ,3004 ,        5006),
+    -> (70003,       2480.4  ,    '2012-10-10' , 3009   ,      5003),
+    -> (70012     ,  250.45  ,    '2012-06-27' , 3008    ,     5002),
+    -> (70011   ,    75.29 ,     ' 2012-08-17 ', 3003     ,    5007),
+    -> (70013   ,    3045.6 ,     '2012-04-25'  ,3002    ,     5001);
+Query OK, 6 rows affected (0.01 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+mysql> select * from orders;
++--------+-----------+-------------+----------------+------------+
+| ord_no | purch_amt | customer_id | salesman_id_fo | ord_date   |
++--------+-----------+-------------+----------------+------------+
+|  70001 |     150.5 |        3005 |           5002 | 2012-10-05 |
+|  70009 |    270.65 |        3001 |           5005 | 2012-09-10 |
+|  70002 |     65.26 |        3002 |           5001 | 2012-10-05 |
+|  70004 |     110.5 |        3009 |           5003 | 2012-08-17 |
+|  70007 |     948.5 |        3005 |           5002 | 2012-09-10 |
+|  70005 |    2400.6 |        3007 |           5001 | 2012-07-27 |
+|  70008 |      5760 |        3002 |           5001 | 2012-09-10 |
+|  70010 |   1983.43 |        3004 |           5006 | 2012-10-10 |
+|  70003 |    2480.4 |        3009 |           5003 | 2012-10-10 |
+|  70012 |    250.45 |        3008 |           5002 | 2012-06-27 |
+|  70011 |     75.29 |        3003 |           5007 | 2012-08-17 |
+|  70013 |    3045.6 |        3002 |           5001 | 2012-04-25 |
++--------+-----------+-------------+----------------+------------+
+12 rows in set (0.00 sec)
+
+mysql> select * from customer;
++-------------+----------------+------------+-------+-------------+
+| customer_id | cust_name      | city       | grade | salesman_id |
++-------------+----------------+------------+-------+-------------+
+|        3001 | Brad Guzan     | London     |     0 |        5005 |
+|        3002 | Nick Rimando   | New York   |   100 |        5001 |
+|        3003 | Jozy Altidor   | Moscow     |   200 |        5007 |
+|        3004 | Fabian Johnson | Paris      |   300 |        5006 |
+|        3005 | Graham Zusi    | California |   200 |        5002 |
+|        3007 | Brad Davis     | New York   |   200 |        5001 |
+|        3008 | Julian Gree    | London     |   300 |        5002 |
+|        3009 | Geoff Cameron  | Berlin     |   100 |        5003 |
++-------------+----------------+------------+-------+-------------+
+8 rows in set (0.00 sec)
+
+mysql> select * from salesman;
++-------------+------------+----------+------------+
+| salesman_id | name       | city     | commission |
++-------------+------------+----------+------------+
+|        5001 | James Hoog | New York |       0.15 |
+|        5002 | Nail Knite | Paris    |       0.13 |
+|        5003 | Lauson Hen | San Jose |       0.12 |
+|        5005 | Pit Alex   | London   |       0.11 |
+|        5006 | Mc Lyon    | Paris    |       0.14 |
+|        5007 | Paul Adam  | Rome     |       0.13 |
++-------------+------------+----------+------------+
+6 rows in set (0.01 sec)
+
+mysql> notee;
